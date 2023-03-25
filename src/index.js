@@ -65,7 +65,7 @@ client.on("interactionCreate", (e) => {
         case 'info':
             const devEmbed = new EmbedBuilder()
                 .setColor('#000000')
-                .setTitle('DELTA-codes - Github')
+                .setTitle('Deltaximity - Github')
                 .setURL('https://github.com/Deltaximity')
                 .setDescription('I\'m being programmed by <@483941946495336487>. Click the link above to see me on Github!')
             
