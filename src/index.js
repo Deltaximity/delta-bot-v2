@@ -54,13 +54,14 @@ client.on("interactionCreate", (e) => {
             break;
         case 'purge':
             let amount = e.options.get('amount').value;
-            if (amount > 100) {e.reply("Did I mention the trunk can only hold 100 messages?"); return;}
-            if (amount < 1) {e.reply("I see you wanted to purge all the negative comments, but unfortunately that's beyond my powers."); return;}
+            if (amount > 100) {e.reply("Are you trying to delete the server from existence or what?"); return;}
+            if (amount = 0) {e.reply("I would do something better with my time."); return;}
+            if (amount < 0) {e.reply("You trying to do reverse psychology on me? Nice try."); return;}
             purge(e, amount);
             break;
         case 'say':
-            e.channel.send(e.options.get('message').value)
-            e.reply({ content: "done. 🗿", ephemeral: true });
+            e.channel.send(e.options.get('message').value);
+            e.reply({ content: "Done. 🗿", ephemeral: true });
             break;
         case 'info':
             const devEmbed = new EmbedBuilder()
@@ -70,6 +71,7 @@ client.on("interactionCreate", (e) => {
                 .setDescription('I\'m being programmed by <@483941946495336487>. Click the link above to see me on Github!')
             
             e.reply({ embeds:[devEmbed] });
+            break;
         case 'joke':
             joke(e);
             break;
