@@ -1,5 +1,5 @@
 require('dotenv').config();
-const { Client, IntentsBitField, EmbedBuilder } = require('discord.js');
+const { Client, IntentsBitField, EmbedBuilder, underscore } = require('discord.js');
 
 // intents, data access
 const client = new Client({
@@ -13,7 +13,7 @@ const client = new Client({
 
 client.on("ready", (e) => {
     console.log(`✔ ${e.user.tag} is ready.`);
-})
+});
 
 client.on("messageCreate", async (e) => {
     if (e.author.bot) return; // bot barrier
@@ -38,10 +38,10 @@ client.on("messageCreate", async (e) => {
         e.channel.send("What?");
     } else if (msg.includes("nani")) {
         e.channel.send("NANI!?");
-    } else if (msg.includes("you suck")) {
-        e.channel.send("Okay :c");
+    } else if (msg.includes("gigachad") && msg.includes("suck")) {
+        e.channel.send("No, we all know gigachad is the best!");
     } else if (msg.includes("shut up")) {
-        e.channel.send("That's not nice :c");
+        e.channel.send("That's not very nice. Do you need some mental help?");
     }
 });
 
@@ -75,6 +75,15 @@ client.on("interactionCreate", (e) => {
         case 'joke':
             joke(e);
             break;
+        case 'quote':
+            let category;
+            if (e.options.get('category') !== null) {
+                category = e.options.get('category').value;
+                quote(e, category);
+            } else {
+                quote(e);
+            }
+            break;
     }
 });
 
@@ -92,6 +101,27 @@ async function joke(e) {
     setTimeout(() => {
         e.channel.send(punchline);
     }, 4000);
+}
+
+async function quote(e, category) {
+    const request = require('request');
+    let url = "https://api.api-ninjas.com/v1/quotes";
+    if (category) url += `?category=${category}`;
+    request.get({
+        url: url,
+        headers: {
+            'X-Api-Key': process.env.API_NINJA
+        },
+    }, function (error, response, body) {
+        if (error) {
+            return console.error('Request failed:', error);
+        } else if (response.statusCode != 200) {
+            return console.error('Error:', response.statusCode, body.toString('utf8'));
+        } else {
+            const res = JSON.parse(body);
+            e.reply(`[${res[0].category}] "${res[0].quote}" - ${res[0].author}`);
+        }
+    });
 }
 
 client.login(process.env.TOKEN);
