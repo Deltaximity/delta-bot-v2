@@ -55,7 +55,7 @@ client.on("interactionCreate", (e) => {
         case 'purge':
             let amount = e.options.get('amount').value;
             if (amount > 100) {e.reply("Are you trying to delete the server from existence or what?"); return;}
-            if (amount = 0) {e.reply("I would do something better with my time."); return;}
+            if (amount === 0) {e.reply("I would do something better with my time."); return;}
             if (amount < 0) {e.reply("You trying to do reverse psychology on me? Nice try."); return;}
             purge(e, amount);
             break;
